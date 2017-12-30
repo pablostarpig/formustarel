@@ -111,29 +111,29 @@ def ticket_detail(request, ticket_id):
         return render(request, 'board/ticket_detail.html', {'ticket': ticket})
 
 
-# def favorite(request, song_id):
-#     song = get_object_or_404(Song, pk=song_id)
+# def favorite(request, ticket_id):
+#     ticket = get_object_or_404(ticket, pk=ticket_id)
 #     try:
-#         if song.is_favorite:
-#             song.is_favorite = False
+#         if ticket.is_favorite:
+#             ticket.is_favorite = False
 #         else:
-#             song.is_favorite = True
-#         song.save()
-#     except (KeyError, Song.DoesNotExist):
+#             ticket.is_favorite = True
+#         ticket.save()
+#     except (KeyError, ticket.DoesNotExist):
 #         return JsonResponse({'success': False})
 #     else:
 #         return JsonResponse({'success': True})
 
 
-# def favorite_album(request, album_id):
-#     album = get_object_or_404(Album, pk=album_id)
+# def favorite_project(request, project_id):
+#     project = get_object_or_404(project, pk=project_id)
 #     try:
-#         if album.is_favorite:
-#             album.is_favorite = False
+#         if project.is_favorite:
+#             project.is_favorite = False
 #         else:
-#             album.is_favorite = True
-#         album.save()
-#     except (KeyError, Album.DoesNotExist):
+#             project.is_favorite = True
+#         project.save()
+#     except (KeyError, project.DoesNotExist):
 #         return JsonResponse({'success': False})
 #     else:
 #         return JsonResponse({'success': True})
@@ -166,7 +166,7 @@ def login_user(request):
             if user.is_active:
                 login(request, user)
                 projects = Project.objects.all()
-                return render(request, 'board/index.html', {'projects': projects})
+                return render(request, 'board/welcome.html', {'projects': projects})
             else:
                 return render(request, 'board/login.html', {'error_message': 'Your account has been disabled'})
         else:
@@ -203,12 +203,12 @@ def tickets(request, filter_by):
             for project in Project.objects.all():
                 for ticket in project.ticket_set.all():
                     ticket_ids.append(ticket.pk)
-            users_songs = Ticket.objects.filter(pk__in=ticket_ids)
+            users_tickets = Ticket.objects.filter(pk__in=ticket_ids)
             # if filter_by == 'favorites':
-            #     users_songs = users_songs.filter(is_favorite=True)
+            #     users_tickets = users_tickets.filter(is_favorite=True)
         except Project.DoesNotExist:
-            users_songs = []
-        return render(request, 'board/songs.html', {
-            'ticket_list': users_songs,
+            users_tickets = []
+        return render(request, 'board/tickets.html', {
+            'ticket_list': users_tickets,
             'filter_by': filter_by,
         })
