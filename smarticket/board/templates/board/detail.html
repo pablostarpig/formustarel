@@ -39,6 +39,7 @@
                     <table class="table">
                         <thead>
                         <tr>
+                            <th>Number</th>
                             <th>Summary</th>
                             <th>Priority</th>
                             <th>Owner</th>
@@ -49,6 +50,7 @@
                         <tbody>
                         {% for ticket in project.ticket_set.all %}
                             <tr>
+                                <td><a href="{% url 'board:ticket_detail' ticket.id %}">{{ ticket.id }}</a></td>
                                 <td>{{ ticket.name }}</td>
                                 <td>{{ ticket.priority }}</td>
                                 <td>{{ ticket.owner }}</td>

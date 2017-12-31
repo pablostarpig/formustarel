@@ -5,20 +5,21 @@
 <div class="projects-container container-fluid">
 
     <!-- projects -->
-    <div class="row">
+    <div class="container text-center">
         <div class="col-sm-12">
             <h3>{{ user.username }}'s projects</h3>
         </div>
+        <div class="row">
         {% if projects %}
             {% for project in projects %}
-                <div class="col-sm-4 col-lg-2">
+                <div class="col-sm-3">
                     <div class="thumbnail">
                         <a href="{% url 'board:detail' project.id %}">
                             <img src="{{ project.project_logo.url }}" class="img-responsive">
                         </a>
                         <div class="caption">
-                            <h2>{{ project.project_title }}</h2>
-                            <h4>{{ project.artist }}</h4>
+                            <h2>{{ project.name }}</h2>
+                            <h4>{{ project.description }}</h4>
 
                             <!-- View Details -->
                             <a href="{% url 'board:detail' project.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
@@ -31,11 +32,6 @@
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </form>
-
-                            <!-- Favorite project -->
-                            <a href="{% url 'board:favorite_project' project.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span class="glyphicon glyphicon-star {% if project.is_favorite %}active{% endif %}"></span>
-                            </a>
 
                         </div>
                     </div>
@@ -52,6 +48,7 @@
                 </a>
             </div>
         {% endif %}
+        </div>
     </div>
 
     <!-- If user searches and there are tickets -->
