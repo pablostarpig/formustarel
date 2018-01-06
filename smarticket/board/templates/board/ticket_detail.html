@@ -13,12 +13,11 @@
       <div class="well">
         <p><a href="#">Labels</a></p>
         <p>
-          <span class="label label-default">Backend</span>
-          <span class="label label-primary">Frontend</span>
-          <span class="label label-success">UX</span>
-          <span class="label label-info">QA</span>
-          <span class="label label-warning">Gaming</span>
-          <span class="label label-danger">Friends</span>
+          <span class="label label-default">{{ ticket.team }}</span>
+          <span class="label label-primary">{{ ticket.type }}</span>
+          <span class="label label-success">{{ ticket.priority }}</span>
+          <span class="label label-info">{{ ticket.owner }}</span>
+          <span class="label label-warning">{{ ticket.status }}</span>
         </p>
       </div>
       <div class="alert alert-success fade in">
@@ -26,9 +25,7 @@
         <p><strong>Ey!</strong></p>
         Due date is coming!
       </div>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
+      <p><a href="{% url 'board:update_ticket' ticket.id %}">Modify ticket</a></p>
     </div>
     <div class="col-sm-7">
 
@@ -37,32 +34,51 @@
           <div class="panel panel-default text-left">
             <div class="panel-body">
               <h2>{{ ticket.description }}</h2>
-              <button type="button" class="btn btn-default btn-sm">
-                  Button
-              </button>
             </div>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-sm-3">
-          <div class="well">
-           <p>John</p>
-           <img src="bird.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-          </div>
-        </div>
-        <div class="col-sm-9">
-          <div class="well">
-            <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+        <div class="col-sm-12">
+          <div class="panel panel-default text-left">
+            <div class="panel-body">
+              <!--<p contenteditable="true">Status: Feeling Blue</p>-->
+              <!--<button type="button" class="btn btn-default btn-sm">-->
+                <!--<span class="glyphicon glyphicon-thumbs-up"></span> Like-->
+              <!--</button>-->
+              <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'board/form_template.html' %}
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success">Post</button>
+                  </div>
+                </div>
+               </form>
+            </div>
           </div>
         </div>
       </div>
+
+      {% for comment in ticket.comment_set.all %}
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="well">
+             <p>{{ comment.user }}</p>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div class="well">
+              <p>{{ comment.content }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
     <div class="col-sm-2 well">
       <div class="thumbnail">
         <p>Upcoming Events:</p>
-        <img src="paris.jpg" alt="Paris" width="400" height="300">
         <p><strong>Paris</strong></p>
         <p>Fri. 27 November 2015</p>
         <button class="btn btn-primary">Info</button>

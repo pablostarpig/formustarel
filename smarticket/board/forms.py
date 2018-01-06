@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Ticket, Project
+from .models import Ticket, Project, Comment
 
 
 class ProjectForm(forms.ModelForm):
@@ -14,7 +14,13 @@ class ProjectForm(forms.ModelForm):
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['name', 'status', 'team']
+        fields = ['name', 'status', 'team', 'type', 'priority', 'owner', 'description',
+                  'project']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
 
 
 class UserForm(forms.ModelForm):

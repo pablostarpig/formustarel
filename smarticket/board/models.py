@@ -21,5 +21,17 @@ class Ticket(models.Model):
     team = models.CharField(max_length=50)
     owner = models.CharField(max_length=50)
 
+
     def __str__(self):
         return self.name + ' - ' + self.status
+
+
+class Comment(models.Model):
+    ticket_id = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    user = models.CharField(max_length=100)
+    content = models.CharField(max_length=10000)
+    comment_date = models.DateField(auto_now_add=True, blank=True)
+    comment_time = models.TimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return self.user + ' - ' + self.content

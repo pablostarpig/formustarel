@@ -3,7 +3,7 @@ from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .forms import ProjectForm, TicketForm, UserForm
+from .forms import ProjectForm, TicketForm, UserForm, CommentForm
 from .models import Project, Ticket
 
 
@@ -108,7 +108,15 @@ def ticket_detail(request, ticket_id):
         return render(request, 'board/login.html')
     else:
         ticket = get_object_or_404(Ticket, pk=ticket_id)
-        return render(request, 'board/ticket_detail.html', {'ticket': ticket})
+        comment_form = CommentForm(request.POST or None,
+                                   request.FILES or None)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.ticket_id = ticket
+            comment.user = request.user
+            comment.save()
+            return render(request, 'board/ticket_detail.html', {'ticket': ticket, 'form': comment_form})
+        return render(request, 'board/ticket_detail.html', {'ticket': ticket, 'form': comment_form})
 
 
 # def favorite(request, ticket_id):
